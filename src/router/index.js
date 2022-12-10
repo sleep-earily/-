@@ -44,7 +44,7 @@ const routes = [
     path: '/infoUser',
     name: 'InfoUser',
     beforeEnter: (to, from, next) => {
-      if(store.state.isLogin){
+      if(store.state.isLogin || store.state.token || localStorage.getItem('token')){
         next()
       }else{
         next('/login')

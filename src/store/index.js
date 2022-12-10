@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import {getMUsicLyric} from '@/requests/api/item'
-import {getSearchList} from '@/requests/api/home'
+import {getLoginstate, getLoginyzm} from '@/requests/api/home'
 export default createStore({
   state: {
     playList:[{
@@ -27,6 +27,7 @@ export default createStore({
     duration:0,//歌曲时长
     isLogin:false,//是否登陆
     isFooterMusic:false,
+    token:'',
   },
   getters: {
   },
@@ -59,7 +60,14 @@ export default createStore({
     updateisFooterMusic(state, value){
       // console.log(value);
       state.isFooterMusic = value
-    }
+    },
+    updateisLogin(state, value){
+      state.isLogin = value
+    },
+    updatetoken(state, value){
+      state.token = value
+      localStorage.setItem('token', value)
+    },
   },
   actions: {
     async getLyric(context, value){
@@ -68,8 +76,12 @@ export default createStore({
       context.commit("updatelyricList", res.data.lrc)
     },
     async getLogin(context, value){
-      let res = await getSearchList(value)
+      let res = await getLoginstate(value)
       console.log(res);
+    },
+    async getyzm(context, value){
+      let res = await getLoginyzm(value);
+      console.log('获取验证码');
     }
   },
   
